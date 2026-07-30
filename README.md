@@ -1,10 +1,10 @@
-# IVM
+# Incremental Veiw Maintenance - IVM
 
 ## Introduction
 
-This repository contains the full paper with all proofs, the code, data, and resources that complement the paper submitted for publication:  
+This repository contains the full report, including all proofs, code, data, and resources that complement the paper submitted for publication: 
 
-**Incremental Maintenance of RDB2RDF Views: A Post-Update, LLM-Compilable Formulation of Changeset Computation**
+**"Provably Correct Post-Update Incremental Maintenance of RDB2RDF Views"**
 
 *Abstract*
 
