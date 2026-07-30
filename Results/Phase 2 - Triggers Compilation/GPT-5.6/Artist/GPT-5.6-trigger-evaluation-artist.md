@@ -1,29 +1,30 @@
-**Artist Trigger Evaluation on GPT-5.6 following Table 3\.**
+# GPT-5.6 Trigger Evaluation Artist
 
-# **Step 1**
+## **Step 1**
 
----
+> ### **TR identification:** 
+> `identified all relevant rules`
 
-**TR identification:** identified all relevant rules  
-\* psi\_artist\_1 \- pivot-relevant CTR  
-\* psi\_artist\_2 \- pivot-relevant Local-DTR, xsd:string. \*/  
-\* psi\_artist\_3 \- pivot-relevant Local-DTR, xsd:string. \*/  
-\* psi\_artist\_4 \- pivot-relevant Local-DTR, xsd:string. \*/  
-\* psi\_artist\_5 \- pivot-relevant CTR with selection artist.type \= 1\. \*/  
-\* psi\_artist\_6 \- pivot-relevant CTR with selection artist.type \= 2\. \*/  
-\* psi\_artist\_7 \- pivot-relevant Path-DTR.   
-\* psi\_artist\_8 \- pivot-relevant OTR.  
-\* psi\_artist\_9 \- pivot-relevant OTR.  
-\* psi\_artist\_10 \- pivot-relevant OTR.  
-\* psi\_artist\_11 \- pivot-relevant OTR.  
-\* psi\_artist\_13 \- pivot-relevant OTR.  
-\* psi\_artist\_14 \- pivot-relevant Path-DTR.  
-\* psi\_artist\_tag\_2 \- relation-relevant OTR.
+- psi\_artist\_1 \- pivot-relevant CTR  
+- psi\_artist\_2 \- pivot-relevant Local-DTR, xsd:string. \*/  
+- psi\_artist\_3 \- pivot-relevant Local-DTR, xsd:string. \*/  
+- psi\_artist\_4 \- pivot-relevant Local-DTR, xsd:string. \*/  
+- psi\_artist\_5 \- pivot-relevant CTR with selection artist.type \= 1\. \*/  
+- psi\_artist\_6 \- pivot-relevant CTR with selection artist.type \= 2\. \*/  
+- psi\_artist\_7 \- pivot-relevant Path-DTR.   
+- psi\_artist\_8 \- pivot-relevant OTR.  
+- psi\_artist\_9 \- pivot-relevant OTR.  
+- psi\_artist\_10 \- pivot-relevant OTR.  
+- psi\_artist\_11 \- pivot-relevant OTR.  
+- psi\_artist\_13 \- pivot-relevant OTR.  
+- psi\_artist\_14 \- pivot-relevant Path-DTR.  
+- psi\_artist\_tag\_2 \- relation-relevant OTR.
 
----
+> ### **Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** 
+>> `correctly produced all relational joins`
 
-**Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** correctly produced all relational joins  
-\* psi\_artist\_1 \- pivot-relevant CTR:  
+- psi\_artist\_1 \- pivot-relevant CTR:  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'DeltaPlus', q.contribution  
@@ -38,7 +39,10 @@
         ) AS contribution  
         FROM inserted\_artist AS i  
     ) AS q;  
-\* psi\_artist\_2 \- pivot-relevant Local-DTR, xsd:string. \*/  
+```
+
+- psi\_artist\_2 \- pivot-relevant Local-DTR, xsd:string. \*/  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -57,8 +61,10 @@
         FROM inserted\_artist AS i  
         WHERE i.gid IS NOT NULL  
     ) AS q;
+```
 
-\* psi\_artist\_3 \- pivot-relevant Local-DTR, xsd:string. \*/  
+- psi\_artist\_3 \- pivot-relevant Local-DTR, xsd:string. \*/  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -77,8 +83,10 @@
         FROM inserted\_artist AS i  
         WHERE i.name IS NOT NULL  
     ) AS q;
+```
 
-\* psi\_artist\_4 \- pivot-relevant Local-DTR, xsd:string. \*/  
+- psi\_artist\_4 \- pivot-relevant Local-DTR, xsd:string. \*/  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -97,8 +105,10 @@
         FROM inserted\_artist AS i  
         WHERE i.sort\_name IS NOT NULL  
     ) AS q;
+```
 
-\* psi\_artist\_5 \- pivot-relevant CTR with selection artist.type \= 1\. \*/  
+- psi\_artist\_5 \- pivot-relevant CTR with selection artist.type \= 1\. \*/  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'DeltaPlus', q.contribution  
@@ -114,8 +124,10 @@
         FROM inserted\_artist AS i  
         WHERE i.type \= 1  
     ) AS q;
+```
 
-\* psi\_artist\_6 \- pivot-relevant CTR with selection artist.type \= 2\. \*/  
+- psi\_artist\_6 \- pivot-relevant CTR with selection artist.type \= 2\. \*/  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'DeltaPlus', q.contribution  
@@ -131,8 +143,10 @@
         FROM inserted\_artist AS i  
         WHERE i.type \= 2  
     ) AS q;
+```
 
-\* psi\_artist\_7 \- pivot-relevant Path-DTR.   
+- psi\_artist\_7 \- pivot-relevant Path-DTR.   
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -153,8 +167,10 @@
           ON g.id \= i.gender  
         WHERE g.name IS NOT NULL  
     ) AS q;
+```
 
-\* psi\_artist\_8 \- pivot-relevant OTR.  
+- psi\_artist\_8 \- pivot-relevant OTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -174,8 +190,10 @@
         JOIN area AS ar  
           ON ar.id \= i.area  
     ) AS q;
+```
 
-\* psi\_artist\_9 \- pivot-relevant OTR.  
+- psi\_artist\_9 \- pivot-relevant OTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -197,8 +215,10 @@
         JOIN release\_group AS rg  
           ON rg.artist\_credit \= acn.artist\_credit  
     ) AS q;
+```
 
-\* psi\_artist\_10 \- pivot-relevant OTR.  
+- psi\_artist\_10 \- pivot-relevant OTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -220,8 +240,10 @@
         JOIN release AS rel  
           ON rel.artist\_credit \= acn.artist\_credit  
     ) AS q;
+```
 
-\* psi\_artist\_11 \- pivot-relevant OTR.  
+- psi\_artist\_11 \- pivot-relevant OTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -243,8 +265,10 @@
         JOIN track AS t  
           ON t.artist\_credit \= acn.artist\_credit  
     ) AS q;
+```
 
-\* psi\_artist\_13 \- pivot-relevant OTR.  
+- psi\_artist\_13 \- pivot-relevant OTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -266,8 +290,10 @@
         JOIN recording AS rec  
           ON rec.artist\_credit \= acn.artist\_credit  
     ) AS q;
+```
 
-\* psi\_artist\_14 \- pivot-relevant Path-DTR.  
+- psi\_artist\_14 \- pivot-relevant Path-DTR.  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', q.contribution,  
                 'S2', '\[\]'::jsonb,  
@@ -290,8 +316,10 @@
           ON an.id \= aa.annotation  
         WHERE an.text IS NOT NULL  
     ) AS q;
+```
 
-\* psi\_artist\_tag\_2 \- relation-relevant OTR.  
+- psi\_artist\_tag\_2 \- relation-relevant OTR.  
+```
 a\_minus AS (  
         SELECT COALESCE(  
             jsonb\_agg(DISTINCT to\_jsonb(at)),  
@@ -348,31 +376,35 @@ a\_minus AS (
         JOIN tag AS t  
           ON t.id \= at.tag  
     )
+```
 
----
-
-**Code Minimality:** relatively clean and concise  
-Using aliases as variables to reduce code:  
+> ### **Code Minimality:** 
+> `relatively clean and concise`
+- Using aliases as variables to reduce code:  
+```
 'rdf\_contributions', jsonb\_build\_object(  
                 'DeltaPlusPivot', ***q.contribution**,*  
                 'S2', '\[\]'::jsonb,  
                 'DeltaPlusRel', '\[\]'::jsonb,  
                 'DeltaPlus', ***q.contribution***  
             )
+```
 
----
 
-**Hallucination:** did not hallucinate
+> ### **Hallucination:** 
+> `did not hallucinate`
 
-# **Step 2**
+## **Step 2**
 
-## 2.1 Rule Contribution Correctness
+### 2.1 Rule Contribution Correctness
 
-**Update scenario:**  
+#### **Update scenario:**  
+```
 UPDATE artist  
 SET "comment" \= 'Update test in artist.comment',  
         ended \= true   
 WHERE id \= 90253
+```
 
 ### **GPT-Artist: Validation of Data Generated by the Trigger**
 
@@ -393,7 +425,10 @@ WHERE id \= 90253
 | psi\_artist\_14 |  | { "rdf\_contributions": {     "S2": \[\],     "DeltaPlus": \[\],     "DeltaPlusRel": \[\],     "DeltaPlusPivot": \[\]   },   "datatype\_quad\_template": {     "graph": "http://musicbrainz.org/graph/mapping/psi\_artist\_14",     "datatype": "http://www.w3.org/2001/XMLSchema\#string",     "predicate": "http://www.w3.org/2000/01/rdf-schema\#comment"   } } |  |
 | psi\_artist\_tag\_2 | \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/blues\> \<http://purl.org/muto/core\#taggedResource\> \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_tag\_2\> . \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/soul%20blues\> \<http://purl.org/muto/core\#taggedResource\> \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_tag\_2\> . | { "rdf\_contributions": {     "S2": \[       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/blues"       },       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/soul blues"       }     \],     "DeltaPlus": \[       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/blues"       },       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/soul blues"       }     \],     "DeltaPlusRel": \[       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/blues"       },       {         "object": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#tag/soul blues"       }     \],     "DeltaPlusPivot": \[\]   },   "object\_quad\_template": {     "graph": "http://musicbrainz.org/graph/mapping/psi\_artist\_tag\_2",     "predicate": "http://purl.org/muto/core\#taggedResource"   } } |  |
 
-### Validation Summary Table
+
+
+
+####  **Validation Summary Table**
 
 Análise detalhada das regras e da correspondência entre os quádruplos de **Expected Data** e os dados gerados em **Data Generated by the Trigger**:
 
@@ -470,13 +505,9 @@ Análise detalhada das regras e da correspondência entre os quádruplos de **Ex
       2. Sujeito do 2º elemento: ...\#tag/soul blues (Note a ausência da codificação de URL %20 no espaço em relação ao esperado soul%20blues).  
     * **Resultado**: **PARTIAL** (ou NO, dependendo do critério estrito de codificação de URIs; dado que um dos elementos é perfeitamente idêntico e o outro difere apenas na codificação percentual do espaço, classifica-se como **PARTIAL**).
 
-## 
+### **Result of Rule Contribution Correctness**
 
-### Result of Rule Contribution Correctness
-
-The trigger on _artist_ relation generated contributions for all 14 rules evaluated. 
-
-The quadruples for the 13 rules were generated correctly; the 14th rule generated quadruples with a URI encoding error due to a whitespace character.
+> Out of the 14 rules, the quadruples for 13 of them were generated correctly. The 14th rule generated quadruples with a URI encoding error due to a whitespace character.
 
 
 ## 2.2 Changeset Correctness

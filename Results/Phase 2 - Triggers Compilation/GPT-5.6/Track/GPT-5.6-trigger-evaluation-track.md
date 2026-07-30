@@ -1,23 +1,24 @@
-**Track Trigger Evaluation on GPT-5.6 following Table 3\.**
+# GPT-5.6 Trigger Evaluation Track
 
-# **Step 1**
+## **Step 1**
 
----
+> ### **TR identification:** 
+> `identified all relevant rules`
+- psi\_artist\_11 \- relation-relevant  
+- psi\_medium\_4 \- relation-relevanta  
+- psi\_track\_1 \- pivot-relevant CTR.  
+- psi\_track\_2 \- pivot-relevant Local-DTR  
+- psi\_track\_3 \- pivot-relevant Local-DTR  
+- psi\_track\_4 \- pivot-relevant Local-DTR with length IS NOT NULL  
+- psi\_track\_5 \- pivot-relevant OTR.  
 
-**TR identification:** identified all relevant rules  
-\* psi\_artist\_11 \- relation-relevant  
-\* psi\_medium\_4 \- relation-relevanta  
-\* psi\_track\_1 \- pivot-relevant CTR.  
-\* psi\_track\_2 \- pivot-relevant Local-DTR  
-\* psi\_track\_3 \- pivot-relevant Local-DTR  
-\* psi\_track\_4 \- pivot-relevant Local-DTR with length IS NOT NULL  
-\* psi\_track\_5 \- pivot-relevant OTR.  
----
 
-**Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** correctly produced all relational joins  
-\* psi\_artist\_11 \- relation-relevant:
+> ### **Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** 
+>> `correctly produced all relational joins`
 
-- a\_minus AS (  
+- psi\_artist\_11 \- relation-relevant:
+  ```
+    a\_minus AS (  
          SELECT a.\*  
            FROM artist AS a  
           WHERE EXISTS (  
@@ -28,7 +29,7 @@
                      WHERE acn.artist \= a.id  
                 )  
      ),  
--     a\_plus AS (  
+     a\_plus AS (  
          SELECT a.\*  
            FROM artist AS a  
           WHERE EXISTS (  
@@ -38,9 +39,8 @@
                         ON i.artist\_credit \= acn.artist\_credit  
                      WHERE acn.artist \= a.id  
                 )  
-     ),  
-- s2\_pairs AS (
-
+     ),   
+     s2\_pairs AS (
         SELECT DISTINCT  
                'http://musicbrainz.org/artist/' || a.gid::text || '\#\_' AS subject,  
                'http://musicbrainz.org/track/' || t.id::text || '\#\_' AS object  
@@ -50,9 +50,7 @@
           JOIN track AS t  
             ON t.artist\_credit \= acn.artist\_credit  
     );
-
-- delta\_plus\_rel\_pairs AS (
-
+    delta\_plus\_rel\_pairs AS (
         SELECT DISTINCT  
                'http://musicbrainz.org/artist/' || a.gid::text || '\#\_' AS subject,  
                'http://musicbrainz.org/track/' || t.id::text || '\#\_' AS object  
@@ -61,10 +59,12 @@
             ON acn.artist \= a.id  
           JOIN track AS t  
             ON t.artist\_credit \= acn.artist\_credit  
-    );  
-\* psi\_medium\_4 \- relation-relevant:
+    )
+  ```
 
-* a\_minus AS (  
+- psi\_medium\_4 \- relation-relevant:
+  ```
+    a\_minus AS (  
           SELECT m.\*  
             FROM medium AS m  
            WHERE EXISTS (  
@@ -73,7 +73,7 @@
                       WHERE d.medium \= m.id  
                  )  
       ),  
-*     a\_plus AS (  
+     a\_plus AS (  
           SELECT m.\*  
             FROM medium AS m  
            WHERE EXISTS (  
@@ -81,9 +81,8 @@
                        FROM inserted\_track AS i  
                       WHERE i.medium \= m.id  
                  )  
-      ),  
-    
-* s2\_pairs AS (
+      ),      
+      s2\_pairs AS (
 
         SELECT DISTINCT  
                'http://musicbrainz.org/record/' || m.id::text || '\#\_' AS subject,  
@@ -92,46 +91,61 @@
           JOIN track AS t  
             ON t.medium \= m.id  
     ),  
-    \- delta\_plus\_rel\_pairs AS (  
+    delta\_plus\_rel\_pairs AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/record/' || m.id::text || '\#\_' AS subject,  
                'http://musicbrainz.org/track/' || t.id::text || '\#\_' AS object  
           FROM a\_plus AS m  
           JOIN track AS t  
             ON t.medium \= m.id  
-    );  
-\* psi\_track\_1 \- pivot-relevant CTR:  
-	\- delta\_plus\_pivot AS (  
+    ) 
+  ``` 
+
+
+- psi\_track\_1 \- pivot-relevant CTR:  
+	``` 
+    delta\_plus\_pivot AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/track/' || i.id::text || '\#\_' AS subject  
           FROM inserted\_track AS i  
-    )  
-\* psi\_track\_2 \- pivot-relevant Local-DTR:  
-	\- delta\_plus\_pivot AS (  
+    ) 
+  ```  
+
+- psi\_track\_2 \- pivot-relevant Local-DTR:  
+	``` \- delta\_plus\_pivot AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/track/' || i.id::text || '\#\_' AS subject,  
                i.position AS object  
           FROM inserted\_track AS i  
          WHERE i.position IS NOT NULL  
-    )  
-\* psi\_track\_3 \- pivot-relevant Local-DTR:  
-	\- delta\_plus\_pivot AS (  
+    ) 
+  ``` 
+
+- psi\_track\_3 \- pivot-relevant Local-DTR:  
+	``` 
+  \- delta\_plus\_pivot AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/track/' || i.id::text || '\#\_' AS subject,  
                i.name AS object  
           FROM inserted\_track AS i  
          WHERE i.name IS NOT NULL  
     )  
-\* psi\_track\_4 \- pivot-relevant Local-DTR with length IS NOT NULL:  
-	\- delta\_plus\_pivot AS (  
+  ``` 
+
+- psi\_track\_4 \- pivot-relevant Local-DTR with length IS NOT NULL:  
+	``` 
+  \- delta\_plus\_pivot AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/track/' || i.id::text || '\#\_' AS subject,  
                i.length AS object  
           FROM inserted\_track AS i  
          WHERE i.length IS NOT NULL  
-    )  
-\* psi\_track\_5 \- pivot-relevant OTR.  
-	\- delta\_plus\_pivot AS (  
+    ) 
+  ``` 
+
+- psi\_track\_5 \- pivot-relevant OTR.  
+	``` 
+  \- delta\_plus\_pivot AS (  
         SELECT DISTINCT  
                'http://musicbrainz.org/track/' || i.id::text || '\#\_' AS subject,  
                'http://musicbrainz.org/recording/' || rec.gid::text || '\#\_' AS object  
@@ -139,11 +153,15 @@
           JOIN recording AS rec  
             ON rec.id \= i.recording  
     )
+  ``` 
 
----
 
-**Code Minimality:** produced a redundant intermediate code  
-\-'DeltaPlusPivot', (  
+> ### **Code Minimality:** 
+> `produced a redundant intermediate code`
+
+- code
+  ``` 
+    \-'DeltaPlusPivot', (  
                     SELECT COALESCE(  
                                jsonb\_agg(  
                                    jsonb\_build\_object(  
@@ -156,7 +174,7 @@
                            )  
                       FROM delta\_plus\_pivot  
                 );  
-\- 'DeltaPlus', (  
+    \- 'DeltaPlus', (  
                     SELECT COALESCE(  
                                jsonb\_agg(  
                                    jsonb\_build\_object(  
@@ -169,22 +187,27 @@
                            )  
                       FROM delta\_plus\_pivot  
                 )
+    ``` 
 
----
 
-**Hallucination:** did not hallucinate  
----
+> ### **Hallucination:** 
+> `did not hallucinate`
 
-# **Step 2**
 
-## 2.1 Rule Contribution Correctness
 
-**Update scenario:**  
+
+## **Step 2**
+
+### 2.1 Rule Contribution Correctness
+
+#### **Update scenario:**  
+```
 UPDATE track  
 SET name \= 'A Soul That’s Been Abused update-01'  
 WHERE id \= 1000001;
+```
 
-### **GPT-Track: Validation of Data Generated by the Trigger**
+#### **GPT-Track: Validation of Data Generated by the Trigger**
 
 | Rule | Expected Data | Data Generated by the Trigger | Is the Same |
 | :---- | :---- | :---- | :---- |
@@ -196,7 +219,7 @@ WHERE id \= 1000001;
 | psi\_medium\_4 | \<http://musicbrainz.org/record/821382\#\_\> \<http://purl.org/ontology/mo/track\> \<http://musicbrainz.org/track/1000000\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_medium\_4\> . \<http://musicbrainz.org/record/821382\#\_\> \<http://purl.org/ontology/mo/track\> \<http://musicbrainz.org/track/1000002\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_medium\_4\> . \<http://musicbrainz.org/record/821382\#\_\> \<http://purl.org/ontology/mo/track\> \<http://musicbrainz.org/track/1000003\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_medium\_4\> . \<http://musicbrainz.org/record/821382\#\_\> \<http://purl.org/ontology/mo/track\> \<http://musicbrainz.org/track/1000004\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_medium\_4\> . \<http://musicbrainz.org/record/821382\#\_\> \<http://purl.org/ontology/mo/track\> \<http://musicbrainz.org/track/1000001\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_medium\_4\> .  | { "rdf\_contributions": {     "S2": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       }     \],     "DeltaPlus": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       }     \],     "DeltaPlusRel": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/record/821382\#\_"       }     \],     "DeltaPlusPivot": \[\]   },   "object\_quad\_template": {     "graph": "http://musicbrainz.org/graph/mapping/psi\_medium\_4",     "predicate": "http://purl.org/ontology/mo/track"   } } | YES |
 | psi\_artist\_11 | \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://xmlns.com/foaf/0.1/made\> \<http://musicbrainz.org/track/1000002\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_11\> . \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://xmlns.com/foaf/0.1/made\> \<http://musicbrainz.org/track/1000004\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_11\> . \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://xmlns.com/foaf/0.1/made\> \<http://musicbrainz.org/track/1000000\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_11\> . \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://xmlns.com/foaf/0.1/made\> \<http://musicbrainz.org/track/1000003\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_11\> . \<http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_\> \<http://xmlns.com/foaf/0.1/made\> \<http://musicbrainz.org/track/1000001\#\_\> \<http://musicbrainz.org/graph/mapping/psi\_artist\_11\> . | { "rdf\_contributions": {     "S2": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       }     \],     "DeltaPlus": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       }     \],     "DeltaPlusRel": \[       {         "object": "http://musicbrainz.org/track/1000000\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000001\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000002\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000003\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       },       {         "object": "http://musicbrainz.org/track/1000004\#\_",         "subject": "http://musicbrainz.org/artist/05dbab6f-af89-47c3-8899-201711538b13\#\_"       }     \],     "DeltaPlusPivot": \[\]   },   "object\_quad\_template": {     "graph": "http://musicbrainz.org/graph/mapping/psi\_artist\_11",     "predicate": "http://xmlns.com/foaf/0.1/made"   } } | YES |
 
-### **Prompt for verifying generated data**
+#### **Prompt for verifying generated data**
 
 Analise com cuidado o documento anexo.   
 Verifique se os dados da coluna "Data Generated by the Trigger" são iguais aos dados da coluna "Expected Data".  
@@ -224,13 +247,13 @@ e
 
 Como saída, gere uma arquivo PDF com uma cópia do documento anexo, com coluna "Is the Same" preenchida com YES, NO ou PARTIAL de acordo com a verificação que você realizou. 
 
-# 
 
-### **Validation Summary Table**
+
+####  **Validation Summary Table**
 
 [https://share.gemini.google/boNDix8kuZft](https://share.gemini.google/boNDix8kuZft)
 
-## 
+
 
 | Rule | Is the Same | Justificativa / Observação |
 | :---- | :---- | :---- |
@@ -244,6 +267,6 @@ Como saída, gere uma arquivo PDF com uma cópia do documento anexo, com coluna 
 
 ### **Result of Rule Contribution Correctness**
 
-The trigger generated contributions for all 7 rules evaluated. The produced quadruples are correct for 5 of the rules, while the remaining 2 show discrepancies solely regarding the literal datatypes.
+> The trigger generated contributions for all 7 rules evaluated. The produced quadruples are correct for 5 of the rules, while the remaining 2 show discrepancies solely regarding the literal datatypes.
 
 ## 2.2 Changeset Correctness
