@@ -55,11 +55,10 @@ This folder contains the results of the experiments. It is organized into the fo
 	 
 	The subfolders are organized by LLM.
 
-	- GPT-5.6
+	- **GPT-5.6**
+
 		This folder contains the triggers generated using GPT-5.6 and their evaluation. It is organized into subfolders by database relation.
-		- **Artist**
-      
-            This folder contains the results for the Artist relation.
+		- *Artist* - This folder contains the results for the Artist relation.
       
             [`GPT-5.6-compute-changeset-artist.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-compute-changeset-artist.sql) -- the trigger-side work of Algorithm 2.
 
@@ -71,16 +70,16 @@ This folder contains the results of the experiments. It is organized into the fo
 
             [`results`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/results) — This folder contains files with the results of RDF view maintenance during the _artist_ relation update. `extra-quad.csv` contains quads that should not be in the view. `incremental_graphdb_quads.csv` contains the view after the update. `materialized_gabarito.nq` contains the expected view after the update; `missing_quads.csv` contains quads that should be in the view. `summary.json` summarizes the processed data using the following structure: {"materialized_count", "incremental_count", "missing_count", "extra_count", "equivalent"}.
 
-		- Medium
-			This folder contains the results for the Medium relation.
+		- *Medium* - This folder contains the results for the Medium relation.
+
 			[`GPT-5.6-compute-changeset-medium.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-compute-changeset-medium.sql) -- the trigger-side work of Algorithm 2.
 
 			[`GPT-5.6-results-medium.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-results-medium.md) -- the final results of Phase 2.
 
 			[`GPT-5.6-trigger-evaluation-medium.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-trigger-evaluation-medium.md) -- the evaluation of the final results of Phase 2.
 
-		- Track
-			This folder contains the results for the Track relation.
+		- *Track* - This folder contains the results for the Track relation.
+
 			[`GPT-5.6-compute-changeset-track.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-compute-changeset-track.sql) -- the trigger-side work of Algorithm 2.
 
 			[`GPT-5.6-results-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-results-track.md) -- the final results of Phase 2.
@@ -89,10 +88,11 @@ This folder contains the results of the experiments. It is organized into the fo
 
             [`results`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/results) — This folder contains files with the results of RDF view maintenance during the _track_ relation update.
 
-	- Qwen3.8
+	- **Qwen3.8**
+
 		This folder contains the triggers generated using Qwen3.8 and their evaluation. It is organized into subfolders by database relation.
-		- Track
-			This folder contains the results for the Track relation.
+		- _Track_ - This folder contains the results for the Track relation.
+		
 			[`Qwen3.8-compute-changeset-track.sql`](Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-compute-changeset-track.sql) -- the trigger-side work of Algorithm 2.
 
 			[`Qwen3.8-results-track.md`](/Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-results-track.md) -- the final results of Phase 2.
