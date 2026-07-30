@@ -1,4 +1,4 @@
-# Incremental Veiw Maintenance - IVM
+# Incremental View Maintenance - IVM
 
 ## Introduction
 
