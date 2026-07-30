@@ -472,4 +472,11 @@ Análise detalhada das regras e da correspondência entre os quádruplos de **Ex
 
 ## 
 
+### Result of Rule Contribution Correctness
+
+The trigger on _artist_ relation generated contributions for all 14 rules evaluated. 
+
+The quadruples for the 13 rules were generated correctly; the 14th rule generated quadruples with a URI encoding error due to a whitespace character.
+
+
 ## 2.2 Changeset Correctness

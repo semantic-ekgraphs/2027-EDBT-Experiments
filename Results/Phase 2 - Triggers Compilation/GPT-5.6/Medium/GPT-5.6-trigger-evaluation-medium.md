@@ -1,23 +1,25 @@
 # **Medium Trigger Evaluation on GPT-5.6**
 
-## Medium Trigger Evaluation on GPT-5.6, following Table 3\.
+## Step 1
 
-### Step 1
+#### **TR identification:** `identified all relevant rules`
 
+- psi\_release\_4: relation-relevant; medium is the non-pivot target.  
+
+- psi\_medium\_1: pivot-relevant CTR.   
+
+- psi\_medium\_2: pivot-relevant Local-DTR, name \-\> xsd:string.   
+
+- psi\_medium\_3: pivot-relevant Local-DTR, track\_count \-\> xsd:int.   
+
+- psi\_medium\_4: pivot-relevant OTR, evaluated in the post-update state.   
+
+- psi\_medium\_5: pivot-relevant Path-DTR. Definitive author decision: medium\_format.id is an xsd:int literal.  
 ---
 
-**TR identification:** identified all relevant rules  
-\* psi\_release\_4: relation-relevant; medium is the non-pivot target.  
-\* psi\_medium\_1: pivot-relevant CTR.   
-\* psi\_medium\_2: pivot-relevant Local-DTR, name \-\> xsd:string.   
-\* psi\_medium\_3: pivot-relevant Local-DTR, track\_count \-\> xsd:int.   
-\* psi\_medium\_4: pivot-relevant OTR, evaluated in the post-update state.   
-\* psi\_medium\_5: pivot-relevant Path-DTR. Definitive author decision: medium\_format.id is an xsd:int literal.  
----
-
-**Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** correctly produced all relational joins  
-\* psi\_release\_4: relation-relevant; medium is the non-pivot target.  
-am AS (  
+#### Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u): `correctly produced all relational joins`  
+ - psi\_release\_4: relation-relevant; medium is the non-pivot target.  
+`am AS (  
         SELECT r.\* FROM release r  
         WHERE EXISTS (SELECT 1 FROM deleted\_medium d WHERE d.release \= r.id)  
     ),  
@@ -41,7 +43,7 @@ dpq AS (
           'DeltaPlusPivot','\[\]'::jsonb,  
           'S2',(SELECT COALESCE(jsonb\_agg(jsonb\_build\_object('subject',s,'object',o) ORDER BY s,o),'\[\]') FROM s2q),  
           'DeltaPlusRel',(SELECT COALESCE(jsonb\_agg(jsonb\_build\_object('subject',s,'object',o) ORDER BY s,o),'\[\]') FROM dpq),  
-          'DeltaPlus',(SELECT COALESCE(jsonb\_agg(jsonb\_build\_object('subject',s,'object',o) ORDER BY s,o),'\[\]') FROM dpq)));
+          'DeltaPlus',(SELECT COALESCE(jsonb\_agg(jsonb\_build\_object('subject',s,'object',o) ORDER BY s,o),'\[\]') FROM dpq)));`
 
 \* psi\_medium\_1: pivot-relevant CTR.   
 'DeltaPlusPivot',q.a,'DeltaPlus',q.a))  
@@ -160,3 +162,10 @@ WHERE id \= 55522;
 | **psi\_medium\_4** | \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000034\#\](http://musicbrainz.org/track/1000034\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000025\#\](http://musicbrainz.org/track/1000025\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000029\#\](http://musicbrainz.org/track/1000029\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \[http://musicbrainz.org/track/1000033\#\](http://musicbrainz.org/track/1000033\#) \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000027\#\](http://musicbrainz.org/track/1000027\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000028\#\](http://musicbrainz.org/track/1000028\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000031\#\](http://musicbrainz.org/track/1000031\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000030\#\](http://musicbrainz.org/track/1000030\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000032\#\](http://musicbrainz.org/track/1000032\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) .  \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track) \<\[http://musicbrainz.org/track/1000026\#\](http://musicbrainz.org/track/1000026\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) . | {"rdf\_contributions": {"S2": \[\], "DeltaPlus": \[{"object": "\[http://musicbrainz.org/track/1000025\#\](http://musicbrainz.org/track/1000025\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)"}, {"object": "\[http://musicbrainz.org/track/1000026\#\](http://musicbrainz.org/track/1000026\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000027\#\](http://musicbrainz.org/track/1000027\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000028\#\](http://musicbrainz.org/track/1000028\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000029\#\](http://musicbrainz.org/track/1000029\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000030\#\](http://musicbrainz.org/track/1000030\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000031\#\](http://musicbrainz.org/track/1000031\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)"}, {"object": "\[http://musicbrainz.org/track/1000032\#\](http://musicbrainz.org/track/1000032\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000033\#\](http://musicbrainz.org/track/1000033\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}, {"object": "\[http://musicbrainz.org/track/1000034\#\](http://musicbrainz.org/track/1000034\#)\_", "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}\], "DeltaPlusRel": \[\], "DeltaPlusPivot": \[...\], "object\_quad\_template": {"graph": "\[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4)", "predicate": "\[http://purl.org/ontology/mo/track\](http://purl.org/ontology/mo/track)"}}} | **YES** |
 | **psi\_medium\_5** | \<\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_\> \[http://purl.org/ontology/mo/media\_type\](http://purl.org/ontology/mo/media\_type) "31"^^\[http://www.w3.org/2001/XMLSchema\#int\](http://www.w3.org/2001/XMLSchema\#int) \[http://musicbrainz.org/graph/mapping/psi\_medium\_5\](http://musicbrainz.org/graph/mapping/psi\_medium\_5) . | {"rdf\_contributions": {"S2": \[\], "DeltaPlus": \[{"object": 31, "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}\], "DeltaPlusRel": \[\], "DeltaPlusPivot": \[{"object": 31, "subject": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_"}\], "datatype\_quad\_template": {"graph": "\[http://musicbrainz.org/graph/mapping/psi\_medium\_5\](http://musicbrainz.org/graph/mapping/psi\_medium\_5)", "datatype": "\[http://www.w3.org/2001/XMLSchema\#int\](http://www.w3.org/2001/XMLSchema\#int)", "predicate": "\[http://purl.org/ontology/mo/media\_type\](http://purl.org/ontology/mo/media\_type)"}}} | **YES** |
 | **psi\_release\_4** | \[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#) \[http://purl.org/ontology/mo/record\](http://purl.org/ontology/mo/record) \<\[http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#\](http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#)\_\> \[http://musicbrainz.org/graph/mapping/psi\_medium\_4\](http://musicbrainz.org/graph/mapping/psi\_medium\_4) . | {"rdf\_contributions": {"S2": \[{"object": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_", "subject": "\[http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#\](http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#)\_"}\], "DeltaPlus": \[{"object": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_", "subject": "\[http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#\](http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#)\_"}\], "DeltaPlusRel": \[{"object": "\[http://musicbrainz.org/record/55522\#\](http://musicbrainz.org/record/55522\#)\_", "subject": "\[http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#\](http://musicbrainz.org/release/9d52af97-3527-4aeb-85da-57fd0f84a81a\#)"}\], "DeltaPlusPivot": \[\], "object\_quad\_template": {"graph": "\[http://musicbrainz.org/graph/mapping/psi\_release\_4\](http://musicbrainz.org/graph/mapping/psi\_release\_4)", "predicate": "\[http://purl.org/ontology/mo/record\](http://purl.org/ontology/mo/record)"}}} | **YES** |
+
+
+## Result of Rule Contribution Correctness
+
+The trigger for the medium relation generated contributions for all 6 rules evaluated. The produced quadruples are correct for all of the rules.
+
+2.2 Changeset Correctness
