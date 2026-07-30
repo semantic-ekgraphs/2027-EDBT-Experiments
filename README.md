@@ -95,6 +95,6 @@ This folder contains the results of the experiments. It is organized into the fo
 			This folder contains the results for the Track relation.
 			[`Qwen3.8-compute-changeset-track.sql`](Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-compute-changeset-track.sql) -- the trigger-side work of Algorithm 2.
 
-			`Qwen3.8-results-track.md` -- the final results of Phase 2.
+			[`Qwen3.8-results-track.md`](/Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-results-track.md) -- the final results of Phase 2.
 
 			[`Qwen3.8-trigger-evaluation-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-trigger-evaluation-track.md) -- the evaluation of the final results of Phase 2.
