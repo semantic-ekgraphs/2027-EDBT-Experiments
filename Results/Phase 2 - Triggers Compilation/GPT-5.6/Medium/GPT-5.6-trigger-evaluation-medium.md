@@ -136,7 +136,7 @@ INSERT INTO rdf\_rule\_contribution
 ```
 
 > ### **Hallucination:** 
-`did not hallucinate`
+> `did not hallucinate`
 
 
 ## **Step 2**

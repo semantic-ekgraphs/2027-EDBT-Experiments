@@ -14,7 +14,7 @@
 
 
 > ### **Computation of A-\[Ψ\](u), A+\[Ψ\](u), S2\[Ψ\](u), Δrel+\[Ψ\](u), Δ+\[Ψ\](u):** 
->> `correctly produced all relational joins`
+> `correctly produced all relational joins`
 
 - psi\_artist\_11 \- relation-relevant:
   ```
