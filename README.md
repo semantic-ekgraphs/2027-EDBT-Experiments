@@ -29,23 +29,27 @@ This folder contains the main prompts and attached documents used in the experim
 	 
 - Phase 2 - Triggers Compilation
 	This folder contains the prompt used to compile the transformation rules into after triggers:
-	`PROMPT - Generate the After Trigger for Table R.md`
+	[`PROMPT - Generate the After Trigger for Table R.md`](Prompts/Phase%202%20-%20Triggers%20Compilation/PROMPT%20-%20Generate%20the%20After%20Trigger%20for%20Table%20R.md)
 	 and the files passed as attachments:
-	`IVM-Short-Paper.pdf`
-	`MusicBrainz-Complete-Schema.sql`
-	`Infrastructure-Maintenance-Queue.pdf`
-	`musicbrainz-transformation-rules.xlsx`
+
+	[`IVM-Short-Paper.pdf`](Prompts/Phase%202%20-%20Triggers%20Compilation/IVM-Short-Paper.pdf)
+
+	[`MusicBrainz-Complete-Schema.sql`](Prompts/Phase%202%20-%20Triggers%20Compilation/MusicBrainz-Complete-Schema.sql)
+
+	[`Infrastructure-Maintenance-Queue.pdf`](Prompts/Phase%202%20-%20Triggers%20Compilation/Infrastructure-Maintenance-Queue.pdf)
+
+	[`musicbrainz-transformation-rules.xlsx`](Prompts/Phase%202%20-%20Triggers%20Compilation/musicbrainz-transformation-rules.xlsx)
 
 ### Results
 This folder contains the results of the experiments. It is organized into the following subfolders:
 
 - Phase 1 – Transformation Rules Compilation
 	This folder contains a single spreadsheet with the results of Phase 1 of the implementation - the URI constructors and transformation rules compiled from the R2RML statements:
-	`musicbrainz-transformation-rules.xlsx`
+   [`musicbrainz-transformation-rules.xlsx`](Results/Phase%201%20-%20Transformation%20Rules%20Compilation/musicbrainz-transformation-rules.xlsx)
 
 - Phase 2 - Triggers Compilation
 	This folder contains the results of Phase 2 of the implementation – the triggers compiled. The first file describes the validation process in detail:
-	 `validation-trigger-compilation (Phase 2).md`
+	[`validation-trigger-compilation (Phase 2).md`](Results/Phase%202%20-%20Triggers%20Compilation/validation-trigger-compilation%20(Phase%202).md)
 	 
 	The subfolders are organized by LLM.
 
@@ -53,24 +57,34 @@ This folder contains the results of the experiments. It is organized into the fo
 		This folder contains the triggers generated using GPT-5.6 and their evaluation. It is organized into subfolders by database relation.
 		- Artist
 			This folder contains the results for the Artist relation.
-			`GPT-5.6-compute-changeset-artist.sql` -- the trigger-side work of Algorithm 2.
-			`GPT-5.6-results-artist.md` -- the final results of Phase 2.
-		- `GPT-5.6-trigger-evaluation-artist.md` -- the evaluation of the final results of Phase 2.
+			[`GPT-5.6-compute-changeset-artist.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-compute-changeset-artist.sql) -- the trigger-side work of Algorithm 2.
+
+			[`GPT-5.6-results-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5) -- the final results of Phase 2.
+
+		  [`GPT-5.6-trigger-evaluation-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-trigger-evaluation-artist.md) -- the evaluation of the final results of Phase 2.
+
 		- Medium
 			This folder contains the results for the Medium relation.
-			`GPT-5.6-compute-changeset-medium.sql` -- the trigger-side work of Algorithm 2.
-			`GPT-5.6-results-medium.md` -- the final results of Phase 2.
-			`GPT-5.6-trigger-evaluation-medium.md` -- the evaluation of the final results of Phase 2.
+			[`GPT-5.6-compute-changeset-medium.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-compute-changeset-medium.sql) -- the trigger-side work of Algorithm 2.
+
+			[`GPT-5.6-results-medium.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-results-medium.md) -- the final results of Phase 2.
+
+			[`GPT-5.6-trigger-evaluation-medium.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Medium/GPT-5.6-trigger-evaluation-medium.md) -- the evaluation of the final results of Phase 2.
+
 		- Track
 			This folder contains the results for the Track relation.
-			`GPT-5.6-compute-changeset-track.sql` -- the trigger-side work of Algorithm 2.
-			`GPT-5.6-results-track.md` -- the final results of Phase 2.
-			`GPT-5.6-trigger-evaluation-track.md` -- the evaluation of the final results of Phase 2.
+			[`GPT-5.6-compute-changeset-track.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-compute-changeset-track.sql) -- the trigger-side work of Algorithm 2.
+
+			[`GPT-5.6-results-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-results-track.md) -- the final results of Phase 2.
+
+			[`GPT-5.6-trigger-evaluation-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-trigger-evaluation-track.md) -- the evaluation of the final results of Phase 2.
 
 	  - Qwen3.8
 		This folder contains the triggers generated using Qwen3.8 and their evaluation. It is organized into subfolders by database relation.
 		- Track
 			This folder contains the results for the Track relation.
-			`Qwen3.8-compute-changeset-track.sql` -- the trigger-side work of Algorithm 2.
+			[`Qwen3.8-compute-changeset-track.sql`](Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-compute-changeset-track.sql) -- the trigger-side work of Algorithm 2.
+
 			`Qwen3.8-results-track.md` -- the final results of Phase 2.
-			`Qwen3.8-trigger-evaluation-track.md` -- the evaluation of the final results of Phase 2.
+
+			[`Qwen3.8-trigger-evaluation-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/Qwen3.8/Track/Qwen3.8-trigger-evaluation-track.md) -- the evaluation of the final results of Phase 2.
