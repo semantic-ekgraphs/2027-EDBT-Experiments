@@ -44,10 +44,12 @@ This folder contains the main prompts and attached documents used in the experim
 This folder contains the results of the experiments. It is organized into the following subfolders:
 
 - Phase 1 – Transformation Rules Compilation
+
 	This folder contains a single spreadsheet with the results of Phase 1 of the implementation - the URI constructors and transformation rules compiled from the R2RML statements:
    [`musicbrainz-transformation-rules.xlsx`](Results/Phase%201%20-%20Transformation%20Rules%20Compilation/musicbrainz-transformation-rules.xlsx)
 
 - Phase 2 - Triggers Compilation
+
 	This folder contains the results of Phase 2 of the implementation – the triggers compiled. The first file describes the validation process in detail:
 	[`validation-trigger-compilation (Phase 2).md`](Results/Phase%202%20-%20Triggers%20Compilation/validation-trigger-compilation%20(Phase%202).md)
 	 
@@ -55,13 +57,19 @@ This folder contains the results of the experiments. It is organized into the fo
 
 	- GPT-5.6
 		This folder contains the triggers generated using GPT-5.6 and their evaluation. It is organized into subfolders by database relation.
-		- Artist
-			This folder contains the results for the Artist relation.
-			[`GPT-5.6-compute-changeset-artist.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-compute-changeset-artist.sql) -- the trigger-side work of Algorithm 2.
+		- **Artist**
+      
+            This folder contains the results for the Artist relation.
+      
+            [`GPT-5.6-compute-changeset-artist.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-compute-changeset-artist.sql) -- the trigger-side work of Algorithm 2.
 
 			[`GPT-5.6-results-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-results-artist.md) -- the final results of Phase 2.
 
-		  [`GPT-5.6-trigger-evaluation-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-trigger-evaluation-artist.md) -- the evaluation of the final results of Phase 2.
+		  [`GPT-5.6-trigger-evaluation-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-trigger-evaluation-artist.md) -- the evaluation of the final results of Phase 2. 
+
+           
+
+            [`results`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/results) — This folder contains files with the results of RDF view maintenance during the _artist_ relation update. `extra-quad.csv` contains quads that should not be in the view. `incremental_graphdb_quads.csv` contains the view after the update. `materialized_gabarito.nq` contains the expected view after the update; `missing_quads.csv` contains quads that should be in the view. `summary.json` summarizes the processed data using the following structure: {"materialized_count", "incremental_count", "missing_count", "extra_count", "equivalent"}.
 
 		- Medium
 			This folder contains the results for the Medium relation.
@@ -79,7 +87,9 @@ This folder contains the results of the experiments. It is organized into the fo
 
 			[`GPT-5.6-trigger-evaluation-track.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Track/GPT-5.6-trigger-evaluation-track.md) -- the evaluation of the final results of Phase 2.
 
-	  - Qwen3.8
+            [`results`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/results) — This folder contains files with the results of RDF view maintenance during the _track_ relation update.
+
+	- Qwen3.8
 		This folder contains the triggers generated using Qwen3.8 and their evaluation. It is organized into subfolders by database relation.
 		- Track
 			This folder contains the results for the Track relation.
