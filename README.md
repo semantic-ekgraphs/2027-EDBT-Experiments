@@ -59,7 +59,7 @@ This folder contains the results of the experiments. It is organized into the fo
 			This folder contains the results for the Artist relation.
 			[`GPT-5.6-compute-changeset-artist.sql`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-compute-changeset-artist.sql) -- the trigger-side work of Algorithm 2.
 
-			[`GPT-5.6-results-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5) -- the final results of Phase 2.
+			[`GPT-5.6-results-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-results-artist.md) -- the final results of Phase 2.
 
 		  [`GPT-5.6-trigger-evaluation-artist.md`](Results/Phase%202%20-%20Triggers%20Compilation/GPT-5.6/Artist/GPT-5.6-trigger-evaluation-artist.md) -- the evaluation of the final results of Phase 2.
 
