@@ -1,7 +1,3 @@
-# 2027-EDBT-Experiments
-Supplemental Material
-
-
 # IVM
 
 ## Introduction
@@ -19,10 +15,12 @@ A strategy for exposing relational data as part of a knowledge graph is to defin
 ### Full paper
 The full paper is available at 
 `Full-Paper.pdf`
+[`Full-Paper.pdf`](docs/IVM-Full-Paper.pdf)
 
 ### Database
 The MusicBrains relational schema is available at 
 `MusicBrainz-Complete-Schema.sql`
+[`MusicBrainz-Complete-Schema.sql`](Database/MusicBrainz-Complete-Schema.sql)
 
 ### Prompts
 This folder contains the main prompts and attached documents used in the experiments. It is organized into the following subfolders:

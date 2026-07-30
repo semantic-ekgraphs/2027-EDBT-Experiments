@@ -1,4 +1,4 @@
-\set ON_ERROR_STOP 1
+do\set ON_ERROR_STOP 1
 BEGIN;
 
 CREATE TABLE alternative_release ( -- replicate
