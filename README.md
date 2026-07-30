@@ -25,7 +25,7 @@ This folder contains the main prompts and attached documents used in the experim
 
 - Phase 1 – Transformation Rules Compilation
 	This folder contains the prompt used to compile the R2RML statements into equivalent URI constructors and transformation rules:
-	`PROMPT - R2RML-to-TR Compilation.md`
+	[`PROMPT - R2RML-to-TR Compilation.md`](Prompts/Phase%201%20-%20Transformation%20Rules%20Compilation/PROMPT%20-%20R2RML-to-TR%20Compilation.docx.md)
 	 
 - Phase 2 - Triggers Compilation
 	This folder contains the prompt used to compile the transformation rules into after triggers:
