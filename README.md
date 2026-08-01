@@ -14,7 +14,7 @@ A strategy for exposing relational data as part of a knowledge graph is to defin
 
 ### Full paper
 The full paper is available at 
-[`Full-Paper.pdf`](IVM-Full-Paper.pdf)
+[`Extended-Paper.pdf`](IVM-Full-Paper.pdf)
 
 ### Database
 The MusicBrains relational schema is available at 
