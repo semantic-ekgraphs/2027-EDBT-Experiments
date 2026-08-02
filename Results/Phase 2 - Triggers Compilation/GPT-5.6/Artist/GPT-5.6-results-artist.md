@@ -1,65 +1,58 @@
-# Execução do Prompt da Fase 2 - `R = artist`
+# Phase 2 Prompt Execution - `R = artist`
 
-## Resultado
+## Result
 
-A compilação foi concluída com:
+The compilation produced:
 
-- uma função PostgreSQL `compute_changeset_artist()`;
-- um trigger statement-level `AFTER UPDATE`;
-- uma publicação em `rdf_maintenance_queue` por statement;
-- 14 publicações em `rdf_rule_contribution` por evento, uma para cada regra
-  relevante.
+- one PostgreSQL function `compute_changeset_artist()`;
+- one statement-level `AFTER UPDATE` trigger;
+- one publication to `rdf_maintenance_queue` per statement;
+- 14 publications to `rdf_rule_contribution` per event, one for each
+  relevant rule.
 
-O código não acessa GraphDB e não executa SPARQL. A obtenção de `S1`, a
-computação da contribuição final de remoção e a atualização do dataset RDF
-permanecem atribuídas ao worker assíncrono.
+The code does not access GraphDB and does not execute SPARQL. The retrieval of `S1`, the computation of the final removal contribution, and the update of the RDF dataset remain the responsibility of the asynchronous worker.
 
-### Aviso não bloqueante sobre a planilha
+### Non-blocking warning about the spreadsheet
 
-A aba `Consolidated Rules` contém 83 regras explícitas e únicas, enquanto o
-título e a aba `Summary` ainda registram 89 regras. Para obedecer à regra de
-autoridade do prompt, a compilação considerou exclusivamente as linhas de
-regras efetivamente presentes em `Consolidated Rules`. Essa divergência não
-altera `Relev(artist)`, mas convém atualizar o resumo da planilha.
+The `Consolidated Rules` worksheet contains 83 explicit and unique rules, whereas the title and the `Summary` worksheet still report 89 rules. To comply with the prompt's authority rule, the compilation considered exclusively the rule entries actually present in `Consolidated Rules`. This discrepancy does not affect `Relev(artist)`, but it is advisable to update the spreadsheet summary.
 
-## A) Tabela analítica obrigatória
+## A) Required analytical table
 
 | Ψ | pivot(Ψ) | path(Ψ) | Type | Affected tuples | Justification |
 |---|---|---|---|---|---|
-| `psi_artist_1` | `artist` | `[]` | `pivot` | `inserted_artist` | `pivot(Ψ)=artist`. Não há ocorrência não-pivot de `artist`; o caminho não é necessário para estabelecer a relevância pivot. |
-| `psi_artist_2` | `artist` | `[]` | `pivot` | `inserted_artist` com `gid IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produz `mo:musicbrainz_guid` com datatype `xsd:string`. |
-| `psi_artist_3` | `artist` | `[]` | `pivot` | `inserted_artist` com `name IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produz `foaf:name` com datatype `xsd:string`. |
-| `psi_artist_4` | `artist` | `[]` | `pivot` | `inserted_artist` com `sort_name IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produz `ov:sortLabel` com datatype `xsd:string`. |
-| `psi_artist_5` | `artist` | `[]` | `pivot` | `inserted_artist` com `type=1` | `pivot(Ψ)=artist`. A condição de seleção é aplicada ao pivot inserido. |
-| `psi_artist_6` | `artist` | `[]` | `pivot` | `inserted_artist` com `type=2` | `pivot(Ψ)=artist`. A condição de seleção é aplicada ao pivot inserido. |
-| `psi_artist_7` | `artist` | `[artist_fk_gender]` | `pivot` | `inserted_artist`, seguido de `artist.gender = gender.id` | `pivot(Ψ)=artist`. `gender` é uma relação não-pivot; `artist` é apenas a relação inicial do caminho. |
-| `psi_artist_8` | `artist` | `[artist_fk_area]` | `pivot` | `inserted_artist`, seguido de `artist.area = area.id` | `pivot(Ψ)=artist`. `area` é a relação não-pivot; `artist` é apenas a relação inicial do caminho. |
-| `psi_artist_9` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, release_group_fk_artist_credit^-1]` | `pivot` | `inserted_artist` e `release_group` alcançados pelo caminho | `pivot(Ψ)=artist`. O caminho começa no pivot e termina em `release_group`; não contém outra ocorrência de `artist`. |
-| `psi_artist_10` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, release_fk_artist_credit^-1]` | `pivot` | `inserted_artist` e `release` alcançados pelo caminho | `pivot(Ψ)=artist`. O caminho começa no pivot e termina em `release`; não contém outra ocorrência de `artist`. |
-| `psi_artist_11` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, track_fk_artist_credit^-1]` | `pivot` | `inserted_artist` e `track` alcançados pelo caminho | `pivot(Ψ)=artist`. O caminho começa no pivot e termina em `track`; não contém outra ocorrência de `artist`. |
-| `psi_artist_13` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, recording_fk_artist_credit^-1]` | `pivot` | `inserted_artist` e `recording` alcançados pelo caminho | `pivot(Ψ)=artist`. O caminho começa no pivot e termina em `recording`; não contém outra ocorrência de `artist`. |
-| `psi_artist_14` | `artist` | `[artist_annotation_fk_artist^-1, artist_annotation_fk_annotation]` | `pivot` | `inserted_artist` e suas `annotation` | `pivot(Ψ)=artist`. `annotation` é não-pivot; o literal é `xsd:string`. |
-| `psi_artist_tag_2` | `artist_tag` | `[artist_tag_fk_artist]` | `relation` | `artist_tag` que referencia IDs em `deleted_artist` ou `inserted_artist` | `artist(a)` ocorre no corpo como relação não-pivot e como destino do caminho iniciado em `artist_tag(at)`. Por isso são calculados separadamente `A−`, `A+`, `S2` e `Δ+rel`. |
+| `psi_artist_1` | `artist` | `[]` | `pivot` | `inserted_artist` | `pivot(Ψ)=artist`. There is no non-pivot occurrence of `artist`; the path is not required to establish pivot relevance. |
+| `psi_artist_2` | `artist` | `[]` | `pivot` | `inserted_artist` with `gid IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produces `mo:musicbrainz_guid` with datatype `xsd:string`. |
+| `psi_artist_3` | `artist` | `[]` | `pivot` | `inserted_artist` with `name IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produces `foaf:name` with datatype `xsd:string`. |
+| `psi_artist_4` | `artist` | `[]` | `pivot` | `inserted_artist` with `sort_name IS NOT NULL` | `pivot(Ψ)=artist`. Local-DTR; produces `ov:sortLabel` with datatype `xsd:string`. |
+| `psi_artist_5` | `artist` | `[]` | `pivot` | `inserted_artist` with `type=1` | `pivot(Ψ)=artist`. The selection condition is applied to the inserted pivot. |
+| `psi_artist_6` | `artist` | `[]` | `pivot` | `inserted_artist` with `type=2` | `pivot(Ψ)=artist`. The selection condition is applied to the inserted pivot. |
+| `psi_artist_7` | `artist` | `[artist_fk_gender]` | `pivot` | `inserted_artist`, followed by `artist.gender = gender.id` | `pivot(Ψ)=artist`. `gender` is a non-pivot relation; `artist` is only the starting relation of the path. |
+| `psi_artist_8` | `artist` | `[artist_fk_area]` | `pivot` | `inserted_artist`, followed by `artist.area = area.id` | `pivot(Ψ)=artist`. `area` is a non-pivot relation; `artist` is only the starting relation of the path. |
+| `psi_artist_9` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, release_group_fk_artist_credit^-1]` | `pivot` | `inserted_artist` and the `release_group` records reached through the path | `pivot(Ψ)=artist`. The path starts at the pivot and ends at `release_group`; it contains no other occurrence of `artist`. |
+| `psi_artist_10` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, release_fk_artist_credit^-1]` | `pivot` | `inserted_artist` and the `release` records reached through the path | `pivot(Ψ)=artist`. The path starts at the pivot and ends at `release`; it contains no other occurrence of `artist`. |
+| `psi_artist_11` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, track_fk_artist_credit^-1]` | `pivot` | `inserted_artist` and the `track` records reached through the path | `pivot(Ψ)=artist`. The path starts at the pivot and ends at `track`; it contains no other occurrence of `artist`. |
+| `psi_artist_13` | `artist` | `[artist_credit_name_fk_artist^-1, artist_credit_name_fk_artist_credit, recording_fk_artist_credit^-1]` | `pivot` | `inserted_artist` and the `recording` records reached through the path | `pivot(Ψ)=artist`. The path starts at the pivot and ends at `recording`; it contains no other occurrence of `artist`. |
+| `psi_artist_14` | `artist` | `[artist_annotation_fk_artist^-1, artist_annotation_fk_annotation]` | `pivot` | `inserted_artist` and its `annotation` records | `pivot(Ψ)=artist`. `annotation` is non-pivot; the literal has datatype `xsd:string`. |
+| `psi_artist_tag_2` | `artist_tag` | `[artist_tag_fk_artist]` | `relation` | `artist_tag` records referencing IDs in `deleted_artist` or `inserted_artist` | `artist(a)` appears in the body as a non-pivot relation and as the destination of the path starting at `artist_tag(at)`. Therefore, `A−`, `A+`, `S2`, and `Δ+rel` are computed separately. |
 
-Resumo:
+Summary:
 
-- 13 regras `pivot`;
-- 1 regra `relation`;
-- nenhuma regra `both`.
+- 13 `pivot` rules;
+- 1 `relation` rule;
+- no `both` rules.
 
-## B) Correspondência com o algoritmo
+## B) Correspondence with the algorithm
 
-### Publicação do evento
+### Event publication
 
-O trigger agrega `deleted_artist` e `inserted_artist` em JSON e insere exatamente
-uma linha em `rdf_maintenance_queue`, recuperando seu `event_id`.
+The trigger aggregates `deleted_artist` and `inserted_artist` into JSON and inserts exactly one row into `rdf_maintenance_queue`, retrieving its `event_id`.
 
-### Regras pivot-relevant
+### Pivot-relevant rules
 
-Para cada uma das 13 regras cujo pivot é `artist`,
-`DeltaPlusPivot[Ψ](u)` é calculada aplicando a regra aos registros de
-`inserted_artist` e consultando as relações relacionadas no estado
-pós-atualização. Como essas regras não são relation-relevant para `artist`:
+For each of the 13 rules whose pivot is `artist`,
+`DeltaPlusPivot[Ψ](u)` is computed by applying the rule to the records in
+`inserted_artist` and querying the related relations in the
+post-update state. Since these rules are not relation-relevant for `artist`:
 
 - `A_minus = []`;
 - `A_plus = []`;
@@ -67,41 +60,35 @@ pós-atualização. Como essas regras não são relation-relevant para `artist`:
 - `DeltaPlusRel = []`;
 - `DeltaPlus = DeltaPlusPivot`.
 
-Para CTR, o JSON contém somente `DeltaPlusPivot` e `DeltaPlus`, conforme o
-`class_quad_template`.
+For CTR, the JSON contains only `DeltaPlusPivot` and `DeltaPlus`, according to the `class_quad_template`.
 
-### Regra relation-relevant
+### Relation-relevant rule
 
-Para `psi_artist_tag_2`:
+For `psi_artist_tag_2`:
 
-- `A_minus` contém os pivots `artist_tag` que referenciam artistas presentes em
-  `deleted_artist`;
-- `A_plus` contém os pivots `artist_tag` que referenciam artistas presentes em
-  `inserted_artist`;
-- `S2` aplica a regra aos pivots de `A_minus` sobre o estado PostgreSQL
-  pós-atualização;
-- `DeltaPlusRel` aplica a regra aos pivots de `A_plus` sobre o estado
-  pós-atualização;
+- `A_minus` contains the `artist_tag` pivots that reference artists present in `deleted_artist`;
+- `A_plus` contains the `artist_tag` pivots that reference artists present in `inserted_artist`;
+- `S2` applies the rule to the pivots in `A_minus` over the PostgreSQL post-update state;
+- `DeltaPlusRel` applies the rule to the pivots in `A_plus` over the PostgreSQL post-update state;
 - `DeltaPlusPivot = []`;
 - `DeltaPlus = DeltaPlusRel`.
 
-O worker poderá combinar `S2` com `S1`, obtido de `W0`, para calcular a
-contribuição relation-relevant de remoção.
+The worker can combine `S2` with `S1`, obtained from `W0`, to compute the relation-relevant removal contribution.
 
-## C) Templates e proveniência
+## C) Templates and provenance
 
-Cada registro usa:
+Each record uses:
 
-- `class_quad_template` para CTR;
-- `datatype_quad_template`, incluindo o datatype certificado, para DTR;
-- `object_quad_template` para OTR.
+- `class_quad_template` for CTR;
+- `datatype_quad_template`, including the certified datatype, for DTR;
+- `object_quad_template` for OTR.
 
-A Rule URI da planilha é copiada literalmente para:
+The Rule URI from the spreadsheet is copied verbatim to:
 
 1. `rdf_rule_contribution.rule_graph_uri`;
-2. o campo `graph` do template;
-3. a identificação do named graph da contribuição.
+2. the `graph` field of the template;
+3. the identifier of the contribution's named graph.
 
-## Artefato SQL
+## SQL Artifact
 
-O arquivo `compute_changeset_artist.sql` contém a função e o trigger completos.
+The file `compute_changeset_artist.sql` contains the complete function and trigger.
