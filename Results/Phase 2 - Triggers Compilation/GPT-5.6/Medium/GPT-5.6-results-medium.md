@@ -1,12 +1,12 @@
-# Resultado final da Fase 2 para `R = medium`
+# Final Phase 2 Result for `R = medium`
 
-## Decisão incorporada
+## Incorporated Decision
 
-Por decisão definitiva da autora, `psi_medium_5` permanece `Path-DTR`, mas passa a produzir o literal `medium_format.id` com datatype `xsd:int`. A compilação utiliza `RDFLiteral` e `datatype_quad_template`.
+By the author's final decision, `psi_medium_5` remains a `Path-DTR`, but now produces the literal `medium_format.id` with datatype `xsd:int`. The compilation uses `RDFLiteral` and `datatype_quad_template`.
 
-## Regras relevantes
+## Relevant Rules
 
-| Regra | pivot | path | Relevância |
+| Rule | pivot | path | Relevance |
 |---|---|---|---|
 | `psi_medium_1` | `medium` | `[]` | `pivot` |
 | `psi_medium_2` | `medium` | `[]` | `pivot` |
@@ -15,31 +15,31 @@ Por decisão definitiva da autora, `psi_medium_5` permanece `Path-DTR`, mas pass
 | `psi_medium_5` | `medium` | `[medium_fk_format]` | `pivot` |
 | `psi_release_4` | `release` | `[medium_fk_release^-1]` | `relation` |
 
-`medium` ocorre como relação não pivô de `psi_release_4`: a partir do pivô `release`, o caminho inverso `medium_fk_release^-1` alcança as tuplas de `medium`. Assim, `A−` contém releases referenciados por `deleted_medium.release`, e `A+` contém releases referenciados por `inserted_medium.release`.
+`medium` appears as a non-pivot relation in `psi_release_4`: starting from the `release` pivot, the inverse path `medium_fk_release^-1` reaches the `medium` tuples. Therefore, `A−` contains the releases referenced by `deleted_medium.release`, and `A+` contains the releases referenced by `inserted_medium.release`.
 
-## Resultado da compilação
+## Compilation Result
 
-O SQL:
+The SQL:
 
-- cria `compute_changeset_medium() RETURNS trigger`;
-- captura exatamente um evento por comando `UPDATE`;
-- usa `deleted_medium` e `inserted_medium`;
-- publica exatamente seis contribuições por evento;
-- calcula `A−`, `A+`, `S2` e `DeltaPlusRel` para `psi_release_4`;
-- calcula `DeltaPlusPivot` para as cinco regras com pivô `medium`;
-- usa as seis URIs certificadas como `rule_graph_uri` e grafo RDF;
-- não consulta GraphDB;
-- termina com `RETURN NULL`;
-- cria `trg_compute_changeset_medium` como `AFTER UPDATE FOR EACH STATEMENT`.
+- creates `compute_changeset_medium() RETURNS trigger`;
+- captures exactly one event per `UPDATE` statement;
+- uses `deleted_medium` and `inserted_medium`;
+- publishes exactly six contributions per event;
+- computes `A−`, `A+`, `S2`, and `DeltaPlusRel` for `psi_release_4`;
+- computes `DeltaPlusPivot` for the five rules whose pivot is `medium`;
+- uses the six certified URIs as `rule_graph_uri` and RDF graph;
+- does not query GraphDB;
+- terminates with `RETURN NULL`;
+- creates `trg_compute_changeset_medium` as an `AFTER UPDATE FOR EACH STATEMENT` trigger.
 
-## Verificação
+## Verification
 
-A verificação estática confirmou:
+The static verification confirmed:
 
-- 1 inserção em `rdf_maintenance_queue`;
-- 6 inserções em `rdf_rule_contribution`;
-- 6 URIs certificadas;
-- contrato de trigger de nível de comando;
-- presença das duas tabelas de transição.
+- 1 insertion into `rdf_maintenance_queue`;
+- 6 insertions into `rdf_rule_contribution`;
+- 6 certified URIs;
+- compliance with the statement-level trigger contract;
+- the presence of both transition tables.
 
-O SQL não foi executado contra uma instância PostgreSQL real, pois nenhuma conexão de teste foi fornecida.
+The SQL was not executed against a real PostgreSQL instance, as no test connection was provided.
